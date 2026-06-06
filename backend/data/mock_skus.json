@@ -1,0 +1,206 @@
+[
+  {
+    "id": "TSN-001",
+    "name": "Samsung Galaxy Book3 15.6 Laptop",
+    "category": "Bilgisayar > Laptop",
+    "brand": "Samsung",
+    "model": "Galaxy Book3",
+    "price": 45999,
+    "description": "Intel i7 işlemci",
+    "images": [],
+    "sales": 120,
+    "specs": {
+      "işlemci": "Intel Core i7-1355U",
+      "ram": "",
+      "ekran": "15.6 inç FHD",
+      "depolama": "",
+      "işletim_sistemi": "Windows 11"
+    }
+  },
+  {
+    "id": "TSN-002",
+    "name": "Apple iPhone 15 Pro 256GB",
+    "category": "Telefon > Akıllı Telefon",
+    "brand": "Apple",
+    "model": "iPhone 15 Pro",
+    "price": 62999,
+    "description": "Titanyum tasarım.",
+    "images": [],
+    "sales": 340,
+    "specs": {
+      "işlemci": "Apple A17 Pro",
+      "ram": "",
+      "ekran": "6.1 inç Super Retina XDR",
+      "depolama": "256GB",
+      "işletim_sistemi": "iOS 17"
+    }
+  },
+  {
+    "id": "TSN-003",
+    "name": "Sony WH-1000XM5 Kulaklık",
+    "category": "Ses > Kulaklık",
+    "brand": "Sony",
+    "model": "WH-1000XM5",
+    "price": 12499,
+    "description": "",
+    "images": [],
+    "sales": 89,
+    "specs": {
+      "tip": "Over-ear",
+      "bağlantı": "Bluetooth 5.2",
+      "pil": "30 saat",
+      "anc": "Aktif Gürültü Engelleme",
+      "renk": ""
+    }
+  },
+  {
+    "id": "TSN-004",
+    "name": "LG OLED C3 55 inç TV",
+    "category": "TV > OLED",
+    "brand": "LG",
+    "model": "OLED55C3",
+    "price": 34999,
+    "description": "4K OLED ekran, α9 AI işlemci, webOS 23, Dolby Vision IQ ve Dolby Atmos desteği. Gaming için 120Hz ve HDMI 2.1.",
+    "images": [
+      "https://picsum.photos/seed/lg-tv/800/600"
+    ],
+    "sales": 210,
+    "specs": {
+      "ekran": "55 inç OLED",
+      "çözünürlük": "4K UHD",
+      "yenileme_hızı": "120Hz",
+      "hdr": "Dolby Vision IQ",
+      "ses": "Dolby Atmos",
+      "işletim_sistemi": "webOS 23"
+    }
+  },
+  {
+    "id": "TSN-005",
+    "name": "Dyson V15 Detect Absolute",
+    "category": "Ev Aletleri > Süpürge",
+    "brand": "Dyson",
+    "model": "V15 Detect",
+    "price": 22999,
+    "description": "Lazer teknolojisiyle tozları görünür kılar. 60 dakika çalışma süresi, HEPA filtre.",
+    "images": [
+      "https://picsum.photos/seed/dyson/800/600",
+      "https://picsum.photos/seed/dyson2/800/600"
+    ],
+    "sales": 67,
+    "specs": {
+      "tip": "Şarjlı Süpürge",
+      "güç": "240 AW",
+      "pil": "60 dakika",
+      "filtre": "HEPA",
+      "ağırlık": "3.1 kg",
+      "renk": ""
+    }
+  },
+  {
+    "id": "TSN-006",
+    "name": "Asus ROG Strix G16 Gaming Laptop",
+    "category": "Bilgisayar > Laptop > Gaming",
+    "brand": "Asus",
+    "model": "ROG Strix G16",
+    "price": 52999,
+    "description": "Intel Core i9-13980HX, NVIDIA RTX 4070, 16GB DDR5 RAM, 1TB NVMe SSD, 165Hz QHD ekran. Oyuncular için üst segment seçim.",
+    "images": [
+      "https://picsum.photos/seed/asus-rog/800/600",
+      "https://picsum.photos/seed/asus-rog2/800/600",
+      "https://picsum.photos/seed/asus-rog3/800/600"
+    ],
+    "sales": 155,
+    "specs": {
+      "işlemci": "Intel Core i9-13980HX",
+      "ram": "16GB DDR5",
+      "ekran": "16 inç QHD 165Hz",
+      "depolama": "1TB NVMe SSD",
+      "gpu": "NVIDIA RTX 4070",
+      "işletim_sistemi": "Windows 11"
+    }
+  },
+  {
+    "id": "TSN-007",
+    "name": "Canon EOS R50 Aynasız Fotoğraf Makinesi",
+    "category": "Fotoğraf > Aynasız",
+    "brand": "Canon",
+    "model": "EOS R50",
+    "price": 28999,
+    "description": "24.2 MP, DIGIC X işlemci, 4K video, Wi-Fi ve Bluetooth bağlantı.",
+    "images": [
+      "https://picsum.photos/seed/canon/800/600"
+    ],
+    "sales": 43,
+    "specs": {
+      "sensör": "24.2 MP APS-C",
+      "işlemci": "DIGIC X",
+      "video": "4K 30fps",
+      "ekran": "Döner dokunmatik LCD",
+      "bağlantı": "",
+      "pil": ""
+    }
+  },
+  {
+    "id": "TSN-008",
+    "name": "Samsung 970 EVO Plus 1TB NVMe SSD",
+    "category": "Depolama > SSD",
+    "brand": "Samsung",
+    "model": "970 EVO Plus",
+    "price": 2899,
+    "description": "Okuma: 3500 MB/s, Yazma: 3300 MB/s. 5 yıl garanti.",
+    "images": [
+      "https://picsum.photos/seed/samsung-ssd/800/600",
+      "https://picsum.photos/seed/samsung-ssd2/800/600"
+    ],
+    "sales": 520,
+    "specs": {
+      "kapasite": "1TB",
+      "arayüz": "NVMe M.2",
+      "okuma": "3500 MB/s",
+      "yazma": "3300 MB/s",
+      "garanti": "5 yıl",
+      "form_faktör": "M.2 2280"
+    }
+  },
+  {
+    "id": "TSN-009",
+    "name": "Philips Hue Starter Kit Akıllı Aydınlatma",
+    "category": "Akıllı Ev > Aydınlatma",
+    "brand": "Philips",
+    "model": "Hue White & Color Ambiance",
+    "price": 3499,
+    "description": "",
+    "images": [],
+    "sales": 28,
+    "specs": {
+      "ampul_sayısı": "3 adet",
+      "bağlantı": "",
+      "renk": "16 milyon renk",
+      "güç": "",
+      "uyumluluk": "Alexa, Google Home, Apple HomeKit"
+    }
+  },
+  {
+    "id": "TSN-010",
+    "name": "DJI Mini 4 Pro Drone",
+    "category": "Drone > Tüketici",
+    "brand": "DJI",
+    "model": "Mini 4 Pro",
+    "price": 29999,
+    "description": "249g altı ağırlık, 4K/60fps video, omnidirectional engel algılama, 34 dakika uçuş süresi.",
+    "images": [
+      "https://picsum.photos/seed/dji/800/600",
+      "https://picsum.photos/seed/dji2/800/600",
+      "https://picsum.photos/seed/dji3/800/600"
+    ],
+    "sales": 78,
+    "specs": {
+      "ağırlık": "249g",
+      "video": "4K/60fps",
+      "uçuş_süresi": "34 dakika",
+      "engel_algılama": "Omnidirectional",
+      "menzil": "20 km",
+      "stabilizasyon": "3 eksenli gimbal"
+    }
+  }
+]
