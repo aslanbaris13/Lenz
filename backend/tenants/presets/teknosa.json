@@ -1,0 +1,29 @@
+{
+  "tenant_id": "teknosa_enterprise",
+  "platform": "teknosa",
+  "language": "tr",
+  "llm_model": "claude-sonnet-4-20250514",
+  "visual_rules": {
+    "background": "white",
+    "style": "technical product photography, white background, all angles",
+    "min_images": 4,
+    "video_required": false
+  },
+  "lifestyle_scenes": [
+    "beyaz arka plan, teknik ürün fotoğrafı, stüdyo ışığı",
+    "ürün detay çekimi, teknik özellikler görünür",
+    "kullanım senaryosu, gerçekçi ortam"
+  ],
+  "listing_fields": [
+    "title", "description", "specs",
+    "category", "brand", "model", "ean", "price"
+  ],
+  "tag_limit": null,
+  "title_max_chars": 255,
+  "competitors": ["hepsiburada.com", "mediamarkt.com.tr", "vatan.com"],
+  "seo_marketplace": "teknosa",
+  "required_specs": [
+    "işlemci", "ram", "depolama", "ekran",
+    "işletim_sistemi", "garanti", "renk", "ağırlık"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "tenant_id": "amazon_default",
+  "platform": "amazon",
+  "language": "en",
+  "llm_model": "claude-haiku-4-5",
+  "visual_rules": {
+    "background": "white",
+    "style": "professional product photo, pure white background, Amazon TOS compliant",
+    "min_images": 7,
+    "video_required": true
+  },
+  "lifestyle_scenes": [
+    "on pure white background, product centered, studio lighting, Amazon compliant",
+    "lifestyle usage photo, person using product, natural environment",
+    "product with packaging, unboxing style, clean background"
+  ],
+  "listing_fields": [
+    "title", "bullet_points", "description",
+    "keywords", "brand", "category", "price"
+  ],
+  "tag_limit": null,
+  "title_max_chars": 200,
+  "competitors": ["amazon.com"],
+  "seo_marketplace": "amazon",
+  "required_specs": ["brand", "model", "color", "dimensions", "weight"]
+}
