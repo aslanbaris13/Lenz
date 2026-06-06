@@ -17,10 +17,10 @@ import json
 import logging
 
 import fal_client
-from anthropic import Anthropic
+from openai import AsyncOpenAI
 
 logger = logging.getLogger(__name__)
-_anthropic = Anthropic()
+_openai = AsyncOpenAI()
 
 
 # ═══════════════════════════════════════════════════════════
@@ -263,14 +263,14 @@ _PLATFORM_RULES = {
 
 async def fill_platform_form(product_hint: str, vision_caption: str, tenant_config: dict) -> dict:
     """
-    Model  : claude-haiku-4-5 (Etsy/Trendyol/Amazon) | claude-sonnet (Teknosa)
+    Model  : gpt-4o-mini (Etsy/Trendyol/Amazon) | gpt-4o (Teknosa)
     Görev  : Platforma özel listing formu doldur
     Süre   : ~3 sn | Maliyet: ~$0.001 (haiku)
     """
     platform = tenant_config["platform"]
     language = tenant_config["language"]
     fields   = tenant_config["listing_fields"]
-    model    = tenant_config.get("llm_model", "claude-haiku-4-5")
+    model    = tenant_config.get("llm_model", "gpt-4o-mini")
     rules    = _PLATFORM_RULES.get(platform, "")
 
     system = (
@@ -285,17 +285,16 @@ async def fill_platform_form(product_hint: str, vision_caption: str, tenant_conf
     )
 
     try:
-        resp = _anthropic.messages.create(
+        resp = await _openai.chat.completions.create(
             model=model,
             max_tokens=1500,
-            system=system,
-            messages=[{"role": "user", "content": user}],
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user",   "content": user},
+            ],
+            response_format={"type": "json_object"},
         )
-        raw = resp.content[0].text.strip()
-        if raw.startswith("```"):
-            raw = raw.split("```")[1]
-            if raw.startswith("json"):
-                raw = raw[4:]
+        raw = resp.choices[0].message.content.strip()
         form = json.loads(raw)
         logger.info(f"[LLM] form dolduruldu: {list(form.keys())}")
         return form

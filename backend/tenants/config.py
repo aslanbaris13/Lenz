@@ -12,7 +12,7 @@ class TenantConfig(BaseModel):
     listing_fields: list[str]
     competitors: list[str]
     seo_marketplace: str
-    llm_model: str = "claude-haiku-4-5"
+    llm_model: str = "gpt-4o-mini"
     tag_limit: int | None = None
     title_max_chars: int = 200
 

@@ -2,7 +2,7 @@
   "tenant_id": "trendyol_default",
   "platform": "trendyol",
   "language": "tr",
-  "llm_model": "claude-haiku-4-5",
+  "llm_model": "gpt-4o-mini",
   "visual_rules": {
     "background": "white",
     "style": "professional product photo, studio lighting, e-commerce standard",

@@ -2,7 +2,7 @@
   "tenant_id": "etsy_default",
   "platform": "etsy",
   "language": "en",
-  "llm_model": "claude-haiku-4-5",
+  "llm_model": "gpt-4o-mini",
   "visual_rules": {
     "background": "white or lifestyle",
     "style": "handmade artisan, warm aesthetic, natural light",

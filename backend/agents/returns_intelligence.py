@@ -6,9 +6,9 @@ FAL koşullu: "görsel yanıltıcı" iadesi yüksekse → yeni görsel üret
 """
 
 import fal_client
-from anthropic import Anthropic
+from openai import AsyncOpenAI
 
-_client = Anthropic()
+_client = AsyncOpenAI()
 
 _RETURN_REASON_TO_FAL = {
     "görsel yanıltıcı": "fal-ai/flux/dev",
@@ -47,13 +47,15 @@ def _find_patterns(return_data: list) -> list:
 
 async def _root_cause(sku: dict, patterns: list) -> str:
     try:
-        resp = _client.messages.create(
-            model="claude-sonnet-4-20250514",
+        resp = await _client.chat.completions.create(
+            model="gpt-4o",
             max_tokens=300,
-            system="İade nedenlerini analiz et, kök nedeni bul. Türkçe, kısa yaz.",
-            messages=[{"role": "user", "content": str({"sku": sku["name"], "patterns": patterns})}],
+            messages=[
+                {"role": "system", "content": "İade nedenlerini analiz et, kök nedeni bul. Türkçe, kısa yaz."},
+                {"role": "user",   "content": str({"sku": sku["name"], "patterns": patterns})},
+            ],
         )
-        return resp.content[0].text
+        return resp.choices[0].message.content
     except Exception:
         return "İade analizi tamamlandı."
 
