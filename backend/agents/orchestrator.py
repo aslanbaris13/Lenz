@@ -7,17 +7,17 @@ Orchestrator Agent
 
 Fan-out mantığı:
   SKU gelir → 4 ajana asyncio.gather ile paralel sor
-            → Anthropic ile sentezle
+            → OpenAI ile sentezle
             → kök neden + öncelikli aksiyonlar
 """
 
 import asyncio
 import json
 
-from anthropic import Anthropic
+from openai import AsyncOpenAI
 from . import catalog_listing, competitive, review_sentiment, flow_bundle
 
-_client = Anthropic()
+_client = AsyncOpenAI()
 
 
 async def analyze_sku(sku: dict, mode: str = "reactive") -> dict:
@@ -54,19 +54,28 @@ async def _synthesize(sku, catalog, comp, review, flow) -> dict:
     }
 
     try:
-        resp = _client.messages.create(
-            model="claude-sonnet-4-20250514",
+        resp = await _client.chat.completions.create(
+            model="gpt-4o",
             max_tokens=1000,
-            system=(
-                "Sen Lenz'in SKU analiz koordinatörüsün. "
-                "4 uzman ajandan gelen bulgularla kök nedeni ve aksiyonları üret. "
-                "Türkçe, kısa, gerekçeli yaz. "
-                "Yalnızca JSON döndür:\n"
-                '{"root_cause": str, "priority_actions": [str], "summary": str, "risk_level": "HIGH|MEDIUM|LOW"}'
-            ),
-            messages=[{"role": "user", "content": json.dumps(payload, ensure_ascii=False)}],
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "Sen Lenz'in SKU analiz koordinatörüsün. "
+                        "4 uzman ajandan gelen bulgularla kök nedeni ve aksiyonları üret. "
+                        "Türkçe, kısa, gerekçeli yaz. "
+                        "Yalnızca JSON döndür:\n"
+                        '{"root_cause": str, "priority_actions": [str], "summary": str, "risk_level": "HIGH|MEDIUM|LOW"}'
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": json.dumps(payload, ensure_ascii=False),
+                },
+            ],
+            response_format={"type": "json_object"},
         )
-        return json.loads(resp.content[0].text.strip())
+        return json.loads(resp.choices[0].message.content)
     except Exception:
         return {
             "root_cause": "Analiz tamamlandı, detaylar alt ajan sonuçlarında mevcut.",

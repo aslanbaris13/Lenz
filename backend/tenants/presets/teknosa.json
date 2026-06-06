@@ -2,7 +2,7 @@
   "tenant_id": "teknosa_enterprise",
   "platform": "teknosa",
   "language": "tr",
-  "llm_model": "claude-sonnet-4-20250514",
+  "llm_model": "gpt-4o",
   "visual_rules": {
     "background": "white",
     "style": "technical product photography, white background, all angles",

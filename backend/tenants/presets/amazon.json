@@ -2,7 +2,7 @@
   "tenant_id": "amazon_default",
   "platform": "amazon",
   "language": "en",
-  "llm_model": "claude-haiku-4-5",
+  "llm_model": "gpt-4o-mini",
   "visual_rules": {
     "background": "white",
     "style": "professional product photo, pure white background, Amazon TOS compliant",
