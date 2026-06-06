@@ -78,7 +78,11 @@ _ANGLES = [
 
 
 async def _one_angle(master_url: str, product_name: str, cfg: dict) -> dict:
-    prompt = (
+    """
+    Önce qwen ile açı üret. qwen başarısız olursa flux/dev ile
+    açı açıklamalı prompt kullanarak üret — master_url'e asla fallback yapma.
+    """
+    qwen_prompt = (
         f"<sks> {cfg['az']} {cfg['el']} {cfg['dist']}, "
         f"{product_name}, white background, professional product photography, studio lighting"
     )
@@ -86,7 +90,7 @@ async def _one_angle(master_url: str, product_name: str, cfg: dict) -> dict:
         "fal-ai/qwen-image-edit-2511-multiple-angles",
         {
             "image_url": master_url,
-            "prompt": prompt,
+            "prompt": qwen_prompt,
             "lora_scale": 1.0,
             "guidance_scale": 4.5,
             "num_inference_steps": 28,
@@ -94,11 +98,31 @@ async def _one_angle(master_url: str, product_name: str, cfg: dict) -> dict:
             "image_size": "square_hd",
             "num_images": 1,
         },
-        fallback=master_url,
+        fallback="",
     )
+
+    if not url:
+        # qwen başarısız → flux/dev ile açı bazlı görsel üret
+        logger.warning(f"[qwen] başarısız, flux/dev fallback devreye giriyor: {cfg['view']}")
+        flux_prompt = (
+            f"Professional product photo of {product_name}, {cfg['az']}, "
+            f"{cfg['el']}, white background, studio lighting, e-commerce style, "
+            "high quality, sharp focus, no shadows"
+        )
+        url = await _safe_fal(
+            "fal-ai/flux/dev",
+            {
+                "prompt": flux_prompt,
+                "image_size": "square_hd",
+                "num_images": 1,
+                "guidance_scale": 3.5,
+                "num_inference_steps": 28,
+            },
+            fallback=master_url,
+        )
+
     fallback = url == master_url
-    if not fallback:
-        logger.info(f"[qwen] açı üretildi: {cfg['view']}")
+    logger.info(f"[angle] {cfg['view']} → {'fallback' if fallback else 'ok'}")
     return {"view": cfg["view"], "slot": cfg["slot"], "url": url, "type": "angle", "fallback": fallback}
 
 
@@ -116,21 +140,42 @@ async def generate_angles(master_url: str, product_name: str) -> list[dict]:
 # AŞAMA 2B: Lifestyle sahneler
 # ═══════════════════════════════════════════════════════════
 
-async def _one_lifestyle(master_url: str, scene: str, slot: int) -> dict:
+async def _one_lifestyle(master_url: str, scene: str, slot: int, product_name: str = "") -> dict:
+    """
+    Önce bria/product-shot dene. Başarısız olursa flux/dev ile sahne üret.
+    """
     url = await _safe_fal(
         "fal-ai/bria/product-shot",
         {"image_url": master_url, "scene_description": scene, "num_results": 1, "placement_type": "automatic"},
-        fallback=master_url,
+        fallback="",
     )
+
+    if not url:
+        logger.warning(f"[bria] başarısız, flux/dev fallback: slot={slot}")
+        flux_prompt = (
+            f"Professional lifestyle product photo of {product_name or 'product'}, "
+            f"{scene}, natural lighting, e-commerce style, high quality"
+        )
+        url = await _safe_fal(
+            "fal-ai/flux/dev",
+            {
+                "prompt": flux_prompt,
+                "image_size": "square_hd",
+                "num_images": 1,
+                "guidance_scale": 3.5,
+                "num_inference_steps": 28,
+            },
+            fallback=master_url,
+        )
+
     fallback = url == master_url
-    if not fallback:
-        logger.info(f"[bria] lifestyle üretildi slot={slot}")
+    logger.info(f"[lifestyle] slot={slot} → {'fallback' if fallback else 'ok'}")
     return {"scene": scene, "slot": slot, "url": url, "type": "lifestyle", "fallback": fallback}
 
 
-async def generate_lifestyle(master_url: str, tenant_config: dict) -> list[dict]:
+async def generate_lifestyle(master_url: str, tenant_config: dict, product_name: str = "") -> list[dict]:
     """
-    Endpoint : fal-ai/bria/product-shot
+    Endpoint : fal-ai/bria/product-shot → flux/dev fallback
     Görev    : 3 lifestyle sahne — hepsi paralel
     Süre     : ~12 sn | Maliyet: 3 × $0.04 = $0.12
     """
@@ -140,7 +185,7 @@ async def generate_lifestyle(master_url: str, tenant_config: dict) -> list[dict]
         "in lifestyle context, warm lighting, blurred background",
     ])[:3]
     slots = [2, 3, 9]
-    results = await asyncio.gather(*[_one_lifestyle(master_url, s, slots[i]) for i, s in enumerate(scenes)])
+    results = await asyncio.gather(*[_one_lifestyle(master_url, s, slots[i], product_name) for i, s in enumerate(scenes)])
     return list(results)
 
 
@@ -239,10 +284,18 @@ async def quality_check(images: list[dict], master_url: str, product_keywords: l
 
 _PLATFORM_RULES = {
     "etsy": (
-        "Title: max 140 chars, front-load SEO keywords. "
-        "Tags: exactly 13 comma-separated tags, multi-word allowed. "
-        "Description: 500+ words, storytelling style. "
-        "Add 'handmade' and 'unique' keywords."
+        "Title: max 140 chars, front-load SEO keywords, be specific and descriptive. "
+        "Tags: exactly 13 tags as a JSON array of strings, each tag max 20 chars, multi-word allowed. "
+        "Description: 400+ words, conversational and engaging Etsy seller tone. "
+        "MANDATORY structure with emojis: "
+        "1) Hook paragraph (2-3 sentences, emotional, starts with an emoji) "
+        "2) '✨ What makes it special' section with 3-4 bullet points using emojis "
+        "3) '📦 Product details' section listing materials and specs with emojis "
+        "4) '💌 Perfect as a gift' paragraph "
+        "5) '🌿 Care instructions' with simple steps "
+        "6) Closing CTA sentence. "
+        "Use relevant emojis throughout (🌸, ✨, 💛, 🎁, 📦, 🌿, ⚡, 🛡️, etc). "
+        "DO NOT use generic filler text. Be specific about the actual product."
     ),
     "trendyol": (
         "Başlık: max 200 karakter, marka + model + özellik. "
@@ -287,7 +340,7 @@ async def fill_platform_form(product_hint: str, vision_caption: str, tenant_conf
     try:
         resp = await _openai.chat.completions.create(
             model=model,
-            max_tokens=1500,
+            max_tokens=2500,
             messages=[
                 {"role": "system", "content": system},
                 {"role": "user",   "content": user},
@@ -359,7 +412,7 @@ async def run_visual_pipeline(image_url: str, product_hint: str, tenant_config: 
     # Aşama 2 — tam paralel
     angle_images, lifestyle_images, video, vision_caption = await asyncio.gather(
         generate_angles(master_url, product_hint),
-        generate_lifestyle(master_url, tenant_config),
+        generate_lifestyle(master_url, tenant_config, product_hint),
         generate_video(master_url, product_hint, tenant_config),
         analyze_image(master_url),
     )
