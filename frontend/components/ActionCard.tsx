@@ -1,6 +1,6 @@
 "use client";
 import { clsx } from "clsx";
-import { AlertTriangle, Info, Zap } from "lucide-react";
+import { AlertTriangle, Zap, Info } from "lucide-react";
 
 interface Props {
   title: string;
@@ -9,33 +9,28 @@ interface Props {
   onApply?: () => void;
 }
 
-const PRIORITY = {
-  high:   { label: "Yüksek", cls: "bg-red-50 border-red-200",    text: "text-red-700",    icon: <AlertTriangle className="w-4 h-4 text-red-500" /> },
-  medium: { label: "Orta",   cls: "bg-amber-50 border-amber-200", text: "text-amber-700",  icon: <Zap          className="w-4 h-4 text-amber-500" /> },
-  low:    { label: "Düşük",  cls: "bg-blue-50 border-blue-200",   text: "text-blue-700",   icon: <Info         className="w-4 h-4 text-blue-500" /> },
+const STYLES = {
+  high:   { wrap: "bg-red-50 border-red-100",    text: "text-red-700",    badge: "bg-red-100 text-red-600",    label: "Yüksek", icon: <AlertTriangle className="w-3.5 h-3.5 text-red-500 shrink-0 mt-0.5" /> },
+  medium: { wrap: "bg-amber-50 border-amber-100", text: "text-amber-700",  badge: "bg-amber-100 text-amber-600",label: "Orta",   icon: <Zap           className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" /> },
+  low:    { wrap: "bg-blue-50 border-blue-100",   text: "text-blue-700",   badge: "bg-blue-100 text-blue-600",  label: "Düşük", icon: <Info          className="w-3.5 h-3.5 text-blue-500 shrink-0 mt-0.5" /> },
 };
 
 export function ActionCard({ title, description, priority, onApply }: Props) {
-  const p = PRIORITY[priority];
+  const s = STYLES[priority];
   return (
-    <div className={clsx("rounded-xl border p-4 space-y-2", p.cls)}>
+    <div className={clsx("rounded-xl border p-3 space-y-1.5", s.wrap)}>
       <div className="flex items-start gap-2">
-        {p.icon}
+        {s.icon}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap">
-            <p className={clsx("text-sm font-semibold", p.text)}>{title}</p>
-            <span className={clsx("text-[10px] px-1.5 py-0.5 rounded font-medium uppercase tracking-wide", p.text, "opacity-70 border", p.cls)}>
-              {p.label}
-            </span>
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <p className={clsx("text-xs font-semibold leading-tight", s.text)}>{title}</p>
+            <span className={clsx("badge text-[10px]", s.badge)}>{s.label}</span>
           </div>
-          <p className="text-xs text-gray-600 mt-0.5 leading-relaxed">{description}</p>
+          <p className="text-[11px] text-[#64647A] mt-0.5 leading-relaxed">{description}</p>
         </div>
       </div>
       {onApply && (
-        <button
-          onClick={onApply}
-          className="text-xs font-medium text-gray-700 hover:text-gray-900 underline underline-offset-2"
-        >
+        <button onClick={onApply} className="text-[11px] font-semibold text-[#6C47FF] hover:underline">
           Uygula →
         </button>
       )}
