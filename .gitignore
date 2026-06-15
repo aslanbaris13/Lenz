@@ -14,8 +14,9 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
+backend/lib/
+backend/lib64/
 parts/
 sdist/
 var/
@@ -216,3 +217,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Node
+node_modules/
+.next/
+out/
+.DS_Store
+
+# Env dosyaları
+.env.local
+.env.*.local

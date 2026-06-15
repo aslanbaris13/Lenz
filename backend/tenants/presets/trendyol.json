@@ -1,0 +1,26 @@
+{
+  "tenant_id": "trendyol_default",
+  "platform": "trendyol",
+  "language": "tr",
+  "llm_model": "gpt-4o-mini",
+  "visual_rules": {
+    "background": "white",
+    "style": "professional product photo, studio lighting, e-commerce standard",
+    "min_images": 5,
+    "video_required": false
+  },
+  "lifestyle_scenes": [
+    "beyaz arka plan, profesyonel stüdyo ışığı, yüksek kalite e-ticaret fotoğrafı",
+    "modern ofis masasında, temiz minimal estetik, doğal ışık",
+    "günlük kullanım gösterimi, lifestyle fotoğraf, sıcak ışık"
+  ],
+  "listing_fields": [
+    "title", "description", "specs",
+    "category_code", "brand", "price", "stock"
+  ],
+  "tag_limit": null,
+  "title_max_chars": 200,
+  "competitors": ["hepsiburada.com", "mediamarkt.com.tr", "amazon.com.tr"],
+  "seo_marketplace": "trendyol",
+  "required_specs": ["renk", "boyut", "malzeme", "garanti"]
+}

@@ -1,0 +1,28 @@
+{
+  "tenant_id": "etsy_default",
+  "platform": "etsy",
+  "language": "en",
+  "llm_model": "gpt-4o-mini",
+  "visual_rules": {
+    "background": "white or lifestyle",
+    "style": "handmade artisan, warm aesthetic, natural light",
+    "min_images": 10,
+    "video_required": true
+  },
+  "lifestyle_scenes": [
+    "on white marble surface, minimal aesthetic, soft natural light from window, clean background",
+    "flat lay on pink pastel background with small dried flowers, aesthetic etsy style, cozy vibe",
+    "in hand holding the product, lifestyle photo, warm lighting, coffee shop blurred background"
+  ],
+  "listing_fields": [
+    "title", "tags", "description", "category",
+    "price", "materials", "shipping_profile"
+  ],
+  "tag_limit": 13,
+  "title_max_chars": 140,
+  "competitors": ["etsy.com"],
+  "seo_marketplace": "etsy",
+  "product_keywords": [
+    "handmade", "unique", "gift", "personalized", "custom"
+  ]
+}
